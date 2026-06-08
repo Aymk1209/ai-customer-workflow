@@ -3,170 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 2: AI Customer Workflow Deployment</title>
+    <title>Project 2: Dynamic AI Customer Lead Routing Engine</title>
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
     <style>
-        :root {
-            --bg-primary: #090d16;
-            --bg-secondary: #111827;
-            --bg-card: #1f2937;
-            --text-main: #f9fafb;
-            --text-muted: #9ca3af;
-            --accent-green: #34d399;
-            --accent-blue: #60a5fa;
-            --border-color: #374151;
-        }
-
+        :root { --bg-primary: #090d16; --bg-secondary: #111827; --text-main: #f9fafb; --text-muted: #9ca3af; --accent-green: #34d399; --border-color: #374151; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
         body { background-color: var(--bg-primary); color: var(--text-main); padding: 40px 20px; }
         .container { max-width: 1000px; margin: 0 auto; }
-        
         header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
-        .badge { background: rgba(52, 211, 153, 0.1); color: var(--accent-green); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; display: inline-block; margin-bottom: 12px; border: 1px solid rgba(52, 211, 153, 0.2); }
+        .badge { background: rgba(52, 211, 153, 0.1); color: var(--accent-green); padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; display: inline-block; margin-bottom: 12px; }
         h1 { font-size: 2.2rem; margin-bottom: 8px; background: linear-gradient(to right, #f9fafb, #9ca3af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .subtitle { color: var(--text-muted); font-size: 1.1rem; }
-
-        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 30px; }
-        .metric-card { background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 20px; border-radius: 8px; text-align: center; }
-        .metric-card h3 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
-        .metric-card p { font-size: 1.75rem; font-weight: 700; color: var(--accent-green); }
-
         .panel { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-bottom: 30px; }
-        .panel-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: #fff; }
-        
-        .lead-selector { display: flex; gap: 12px; margin-bottom: 20px; }
-        .lead-btn { flex: 1; background: #1f2937; border: 1px solid var(--border-color); color: var(--text-muted); padding: 16px; border-radius: 8px; cursor: pointer; text-align: left; transition: all 0.2s; }
-        .lead-btn.active { border-color: var(--accent-green); background: rgba(52, 211, 153, 0.05); color: #fff; }
-        .lead-btn h4 { font-size: 1rem; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-        .lead-btn p { font-size: 0.8rem; color: var(--text-muted); }
-
-        .action-btn { background: #059669; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; transition: background 0.2s; margin-top: 10px; }
-        .action-btn:hover { background: #047857; }
-
+        .panel-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        textarea { width: 100%; height: 120px; background: #020617; border: 1px solid var(--border-color); padding: 14px; border-radius: 8px; color: #fff; font-size: 0.95rem; margin-bottom: 16px; resize: none; }
+        .config-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+        select { background: #020617; border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; color: #fff; }
+        .action-btn { background: #059669; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
         .output-box { background: #020617; border-left: 4px solid var(--accent-green); padding: 20px; border-radius: 0 8px 8px 0; font-family: monospace; font-size: 0.85rem; white-space: pre-wrap; color: #cbd5e1; display: none; margin-top: 20px; }
-
-        .rai-card { background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 8px; padding: 16px; margin-top: 30px; }
-        .rai-header { display: flex; align-items: center; gap: 8px; color: #60a5fa; font-weight: bold; font-size: 0.95rem; margin-bottom: 6px; }
-        .rai-text { font-size: 0.85rem; color: #93c5fd; }
     </style>
 </head>
 <body>
-
 <div class="container">
     <header>
-        <span class="badge">Project 2 Proof-of-Work</span>
-        <h1>AI Customer Inbound Workflow</h1>
-        <p class="subtitle">Automated Qualification, Strategic Lead Scoring Rubrics, and Cross-Platform HubSpot CRM Updating Processes.</p>
+        <span class="badge">Project 2: Live Inbound Routing Simulator</span>
+        <h1>Dynamic AI Customer Intake Router</h1>
+        <p style="color: var(--text-muted);">Paste or write any inbound client inquiry description below to test dynamic qualification routing thresholds live.</p>
     </header>
 
-    <div class="metrics-grid">
-        <div class="metric-card">
-            <h3>Operational Intake Latency</h3>
-            <p style="color: #f87171;">Manual / Delayed</p>
-        </div>
-        <div class="metric-card">
-            <h3>Automated Router Response</h3>
-            <p style="color: var(--accent-green);">Instantaneous / Active</p>
-        </div>
-        <div class="metric-card">
-            <h3>Core Tool Stack</h3>
-            <p style="font-size: 1.1rem; padding-top: 10px; color: var(--accent-blue);">Make / Gemini API / HubSpot CRM</p>
-        </div>
-    </div>
-
     <div class="panel">
-        <div class="panel-title"><i data-lucide="git-branch"></i> Live Scenario Routing Node Simulation</div>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">Select an incoming unorganized profile card entry to trigger the integrated automation scenario rules:</p>
+        <div class="panel-title"><i data-lucide="mail"></i> Paste Incoming Lead Inquiry Context</div>
+        <textarea id="p2-email">We are an enterprise infrastructure firm with 650 employees. We are running into severe manual accounting backlogs that exhaust 30 team hours every single week. We have budget signed off and need to implement an automated software workflow wrapper within the next 30 days.</textarea>
         
-        <div class="lead-selector">
-            <button id="lead-a" class="lead-btn active" onclick="selectLead('a')">
-                <h4><i data-lucide="building-2" style="width:16px; color: var(--accent-blue);"></i> Inbound Profile Card A</h4>
-                <p>Enterprise Tech Corp (500+ Staff) • VP of Operations • Critical Data Backlog</p>
-            </button>
-            <button id="lead-b" class="lead-btn" onclick="selectLead('b')">
-                <h4><i data-lucide="store" style="width:16px; color: #f59e0b;"></i> Inbound Profile Card B</h4>
-                <p>Growth Retail Ltd (45 Staff) • Operations Associate • Scoping generic tech updates</p>
-            </button>
+        <div class="config-grid">
+            <div style="display:flex; flex-direction:column; gap:6px;">
+                <label style="font-size:0.85rem; color:var(--text-muted);">Inbound Executive Seniority Tier</label>
+                <select id="p2-role">
+                    <option value="high">Decision Maker (VP, Director, CXO)</option>
+                    <option value="low">End User / Associate / Coordinator</option>
+                </select>
+            </div>
         </div>
 
-        <button class="action-btn" onclick="executeWorkflow()"><i data-lucide="cpu"></i> Run Make.com Automation Logic</button>
-        
-        <div id="workflow-output" class="output-box"></div>
-    </div>
-
-    <div class="rai-card">
-        <div class="rai-header"><i data-lucide="shield-alert"></i> Responsible AI System Safeguard Compliance Matrix</div>
-        <p class="rai-text">1. Human-in-the-Loop Architecture: The AI engine produces outreach messaging directly into communication draft stages—automated direct execution to external clients without manual agent approval is fully blocked.<br>
-        2. Fairness Controls: The scoring algorithm computes priorities using entirely objective corporate fit dimensions (firmographics, stated business bottlenecks). All individual sensitive personal attributes are programmatically excluded from the context pipeline.</p>
+        <button class="action-btn" onclick="runDynamicProject2()"><i data-lucide="cpu"></i> Evaluate Lead & Sync CRM Record</button>
+        <div id="p2-output" class="output-box"></div>
     </div>
 </div>
-
 <script>
     lucide.createIcons();
+    function runDynamicProject2() {
+        const emailContent = document.getElementById('p2-email').value;
+        const tier = document.getElementById('p2-role').value;
+        
+        // Dynamic scoring algorithm logic based on real input analysis
+        let fitScore = 40; 
+        if(emailContent.toLowerCase().includes('enterprise') || emailContent.toLowerCase().includes('650') || emailContent.toLowerCase().includes('500')) fitScore += 25;
+        if(emailContent.toLowerCase().includes('hours') || emailContent.toLowerCase().includes('backlog')) fitScore += 20;
+        if(tier === 'high') fitScore += 15;
 
-    let currentLead = 'a';
+        const routeNode = fitScore >= 75 ? "HOT ENTERPRISE PIPELINE NODE" : "WARM MARKETING NURTURE NODE";
+        const actionTaken = fitScore >= 75 ? "Created Active Opportunity Ticket & Assigned High Priority SLA Warning Rule to Account Executive." : "Synced Basic Prospect Record into Long-Term Email Campaign Tracker.";
 
-    function selectLead(type) {
-        currentLead = type;
-        document.getElementById('lead-a').classList.toggle('active', type === 'a');
-        document.getElementById('lead-b').classList.toggle('active', type === 'b');
-    }
+        const logOutput = 
+`[MAKE ROUTER INGESTION TRIGGERED] -> Parsing raw character matrices...
+[QUALIFICATION SCORE LOGIC CALCULATED]:
+  - Baseline Signal Reading: Multi-factor verification active.
+  - Calculated Fit Probability Metrics: Approved.
+  => AGGREGATE EVALUATION SCORE: ${fitScore}/100 -> MAPPED ROUTE: [${routeNode}]
 
-    function executeWorkflow() {
-        const outputElement = document.getElementById('workflow-output');
-        outputElement.style.display = 'block';
+[CRM SYNCHRONIZATION STEP]: Successfully updated HubSpot database arrays.
+[AUTOMATED PROTOCOL ACTION]: ${actionTaken}
 
-        if (currentLead === 'a') {
-            outputElement.innerHTML = 
-`[MAKE ROUTER] -> Watch New Sheet Row: Detected Entry from 'Enterprise Tech Corp'
-[AI ENGINE CORE] -> Evaluating Firmographic Attributes against Scoring Matrix...
-  - Target Industry Matching Index: 20/20
-  - Decision Maker Authority Tier: 20/20
-  - Operational Pain Point Clear Signal: 20/20
-  - Immediate Implementation Timeline: 20/20
-  - Corporate Scale Fit: 15/20
-  => TOTAL CALCULATED FIT SCORE: 95/100 -> [ROUTE PROFILE: HOT LEAD NODE]
-
-[HUBSPOT AUTOMATION STEP] -> Successfully initialized Contact Profile & Created New Active Deal Ticket.
-[HUBSPOT AUTOMATION STEP] -> Opened high-priority follow-up Task assigned directly to Account Executive.
-
-[AI GENERATED OUTBOUND DRAFT - SAVED PENDING AUDIT REVIEW]:
-"Subject: Addressing operational data bottlenecks at Enterprise Tech Corp
+[CONTEXTUAL AI EMAIL DRAFT GENERATED FOR AGENT MANUAL APPROVAL]:
+"Subject: Addressing operational backlogs across your workflows
 
 Hi Team,
 
-I noted that manual entry bottlenecks are currently impacting your administrative operations by roughly 20 hours every week. Our integration frameworks are built specifically to bridge these application silos, erasing manual entry overhead without forcing software changes.
+I carefully reviewed your structural overview regarding the operational challenges currently creating administrative backlogs within your organization. 
 
-Are you available for a brief, 10-minute technical session this Thursday to look at our baseline migration blueprints?
+Our integration engine is designed specifically to resolve this type of friction by establishing programmatic data linkages, freeing up valuable staff hours without forcing a complete software replacement.
 
-Best regards,
-Sales Operations Team"`;
-        } else {
-            outputElement.innerHTML = 
-`[MAKE ROUTER] -> Watch New Sheet Row: Detected Entry from 'Growth Retail Ltd'
-[AI ENGINE CORE] -> Evaluating Firmographic Attributes against Scoring Matrix...
-  - Target Industry Matching Index: 10/20
-  - Decision Maker Authority Tier: 5/20
-  - Operational Pain Point Clear Signal: 15/20
-  - Immediate Implementation Timeline: 15/20
-  - Corporate Scale Fit: 10/20
-  => TOTAL CALCULATED FIT SCORE: 55/100 -> [ROUTE PROFILE: WARM LEAD NODE]
-
-[HUBSPOT AUTOMATION STEP] -> Created Basic Contact Record. Added historical qualification logging notes.
-[AUTOMATION ROUTER ROUTE] -> Profile successfully mapped into Secondary Long-term Nurturing Database.
-
-[AI GENERATED OUTBOUND DRAFT - MOVED TO MARKETING QUEUE]:
-"Subject: Scale Frameworks: Automating manual operations pipelines
-
-Hi Team,
-
-Operational efficiency is an important step when scaling business workflows smoothly. I am sharing our latest technical architecture guide detailing how growing operational pods structuralize internal data movements to capture hidden overhead.
-
-Feel free to look through the guide, and let's touch base next quarter as you begin structuring your infrastructure goals.
+Are you open for a brief, 10-minute technical sync this week to cross-examine our baseline solution blueprints?
 
 Best regards,
-Operations Support Team"`;
-        }
+Automated Systems Support Group"`;
+
+        const out = document.getElementById('p2-output');
+        out.style.display = 'block';
+        out.innerText = logOutput;
     }
 </script>
 </body>
