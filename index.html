@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 2: Dynamic AI Customer Lead Routing Engine</title>
+    <title>Project 2: Truly Dynamic AI Customer Lead Engine</title>
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
     <style>
         :root { --bg-primary: #090d16; --bg-secondary: #111827; --text-main: #f9fafb; --text-muted: #9ca3af; --accent-green: #34d399; --border-color: #374151; }
@@ -15,11 +15,11 @@
         h1 { font-size: 2.2rem; margin-bottom: 8px; background: linear-gradient(to right, #f9fafb, #9ca3af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .panel { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-bottom: 30px; }
         .panel-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-        textarea { width: 100%; height: 120px; background: #020617; border: 1px solid var(--border-color); padding: 14px; border-radius: 8px; color: #fff; font-size: 0.95rem; margin-bottom: 16px; resize: none; }
+        textarea { width: 100%; height: 180px; background: #020617; border: 1px solid var(--border-color); padding: 14px; border-radius: 8px; color: #fff; font-size: 0.95rem; margin-bottom: 16px; line-height: 1.5; resize: none; }
         .config-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
-        select { background: #020617; border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; color: #fff; }
-        .action-btn { background: #059669; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        .output-box { background: #020617; border-left: 4px solid var(--accent-green); padding: 20px; border-radius: 0 8px 8px 0; font-family: monospace; font-size: 0.85rem; white-space: pre-wrap; color: #cbd5e1; display: none; margin-top: 20px; }
+        select { background: #020617; border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; color: #fff; font-size: 0.9rem; }
+        .action-btn { background: #059669; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; }
+        .output-box { background: #020617; border-left: 4px solid var(--accent-green); padding: 20px; border-radius: 0 8px 8px 0; font-family: monospace; font-size: 0.85rem; white-space: pre-wrap; color: #cbd5e1; display: none; margin-top: 20px; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -27,69 +27,125 @@
     <header>
         <span class="badge">Project 2: Live Inbound Routing Simulator</span>
         <h1>Dynamic AI Customer Intake Router</h1>
-        <p style="color: var(--text-muted);">Paste or write any inbound client inquiry description below to test dynamic qualification routing thresholds live.</p>
+        <p style="color: var(--text-muted);">Paste ANY unorganized inbound business profile or customer email below to compute automated scoring matrix allocations live.</p>
     </header>
 
     <div class="panel">
-        <div class="panel-title"><i data-lucide="mail"></i> Paste Incoming Lead Inquiry Context</div>
-        <textarea id="p2-email">We are an enterprise infrastructure firm with 650 employees. We are running into severe manual accounting backlogs that exhaust 30 team hours every single week. We have budget signed off and need to implement an automated software workflow wrapper within the next 30 days.</textarea>
+        <div class="panel-title"><i data-lucide="mail"></i> Input Inbound Lead Profile Card Context</div>
+        <textarea id="p2-email" placeholder="Paste incoming company profile context here..."></textarea>
         
         <div class="config-grid">
             <div style="display:flex; flex-direction:column; gap:6px;">
-                <label style="font-size:0.85rem; color:var(--text-muted);">Inbound Executive Seniority Tier</label>
+                <label style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">Inbound Prospect Seniority Tier</label>
                 <select id="p2-role">
-                    <option value="high">Decision Maker (VP, Director, CXO)</option>
-                    <option value="low">End User / Associate / Coordinator</option>
+                    <option value="high">Decision Maker (VP, Director, Owner, CXO)</option>
+                    <option value="low">End User / Coordinator / Operational Associate</option>
                 </select>
             </div>
         </div>
 
-        <button class="action-btn" onclick="runDynamicProject2()"><i data-lucide="cpu"></i> Evaluate Lead & Sync CRM Record</button>
+        <button class="action-btn" onclick="runTrulyDynamicProject2()"><i data-lucide="cpu"></i> Evaluate Lead & Sync CRM Record</button>
         <div id="p2-output" class="output-box"></div>
     </div>
 </div>
+
 <script>
     lucide.createIcons();
-    function runDynamicProject2() {
-        const emailContent = document.getElementById('p2-email').value;
+
+    // Default template on window load
+    document.getElementById('p2-email').value = "INBOUND METRIC SHEET:\nCompany Name: TechCorp Solutions\nScale parameters: Operating with a staff of 450 employees.\nStated Friction: We are losing roughly 30 hours per week due to severe manual data entry latency across our administrative databases.";
+
+    function runTrulyDynamicProject2() {
+        const inputText = document.getElementById('p2-email').value.trim();
         const tier = document.getElementById('p2-role').value;
+        const out = document.getElementById('p2-output');
+
+        if (!inputText) {
+            out.style.display = 'block';
+            out.innerText = "[ERROR: No character context found. Please paste lead profile metadata.]";
+            return;
+        }
+
+        // 1. Dynamic Extraction Rules
+        // Try to capture a company name or use a default fallback placeholder
+        const companyMatch = inputText.match(/(?:Company Name:\s*|Firm:\s*|from\s+)([A-Za-z0-9_ ]+)/i);
+        const derivedCompany = companyMatch ? companyMatch[1].trim() : "Your Organization";
+
+        // Try to isolate the friction point line dynamically
+        const lines = inputText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        let derivedFriction = "manual operational pipeline bottlenecks";
+        for (let line of lines) {
+            if (line.toLowerCase().includes('friction') || line.toLowerCase().includes('losing') || line.toLowerCase().includes('bottleneck') || line.toLowerCase().includes('leakage')) {
+                derivedFriction = line;
+                break;
+            }
+        }
+
+        // 2. Compute Firmographic Scoring Algorithm Rules
+        let matrixScore = 35; // Baseline tracking score
+        let corporateScaleFit = 10;
+        let painSignalFit = 15;
+        let authorityFit = tier === 'high' ? 25 : 10;
+
+        // Dynamic checking for volume and headcount indicators
+        const numbers = inputText.match(/\d+/g) || [];
+        const largeNumbersExist = numbers.some(num => parseInt(num) >= 100);
         
-        // Dynamic scoring algorithm logic based on real input analysis
-        let fitScore = 40; 
-        if(emailContent.toLowerCase().includes('enterprise') || emailContent.toLowerCase().includes('650') || emailContent.toLowerCase().includes('500')) fitScore += 25;
-        if(emailContent.toLowerCase().includes('hours') || emailContent.toLowerCase().includes('backlog')) fitScore += 20;
-        if(tier === 'high') fitScore += 15;
+        if (largeNumbersExist || inputText.toLowerCase().includes('enterprise') || inputText.toLowerCase().includes('global')) {
+            corporateScaleFit = 25;
+            matrixScore += 20;
+        }
+        if (inputText.toLowerCase().includes('hours') || inputText.toLowerCase().includes('backlog') || inputText.toLowerCase().includes('latency')) {
+            painSignalFit = 25;
+            matrixScore += 20;
+        }
+        if (tier === 'high') {
+            matrixScore += 15;
+        }
 
-        const routeNode = fitScore >= 75 ? "HOT ENTERPRISE PIPELINE NODE" : "WARM MARKETING NURTURE NODE";
-        const actionTaken = fitScore >= 75 ? "Created Active Opportunity Ticket & Assigned High Priority SLA Warning Rule to Account Executive." : "Synced Basic Prospect Record into Long-Term Email Campaign Tracker.";
+        // Bound final score mathematically between 0 and 100
+        const finalScore = Math.min(matrixScore + corporateScaleFit + painSignalFit, 100);
 
-        const logOutput = 
-`[MAKE ROUTER INGESTION TRIGGERED] -> Parsing raw character matrices...
-[QUALIFICATION SCORE LOGIC CALCULATED]:
-  - Baseline Signal Reading: Multi-factor verification active.
-  - Calculated Fit Probability Metrics: Approved.
-  => AGGREGATE EVALUATION SCORE: ${fitScore}/100 -> MAPPED ROUTE: [${routeNode}]
+        // 3. Conditional Node Branching Logic
+        const routeNode = finalScore >= 75 ? "HOT ENTERPRISE PIPELINE NODE" : "WARM MARKETING NURTURE NODE";
+        const crmAction = finalScore >= 75 
+            ? `[WEBHOOK TRIGGERED] -> Opened High-Priority Deal Record for '${derivedCompany}'. Generated immediate follow-up Task assigned directly to regional Account Executive.`
+            : `[ROUTER LINKED] -> Synced basic contact parameters for '${derivedCompany}' into Secondary Long-Term Campaign Sequence Database.`;
 
-[CRM SYNCHRONIZATION STEP]: Successfully updated HubSpot database arrays.
-[AUTOMATED PROTOCOL ACTION]: ${actionTaken}
+        // 4. Output Render Layout Matrix
+        const logLayout = 
+`[MAKE ROUTER INGESTION TRIGGERED] -> Ingesting raw profile strings...
+[AI CORE MATRIX ENGINE] -> Cross-examining inbound parameters against scoring rubrics:
+  - Target Industry/Pain Alignment Index: ${painSignalFit}/25
+  - Firmographic Corporate Scale Index: ${corporateScaleFit}/25
+  - Prospect Lead Authority Index: ${authorityFit}/25
+  => AGGREGATE CALCULATED FIT SCORE: ${finalScore}/100 -> MAPPED ROUTE: [${routeNode}]
 
-[CONTEXTUAL AI EMAIL DRAFT GENERATED FOR AGENT MANUAL APPROVAL]:
-"Subject: Addressing operational backlogs across your workflows
+================================================================================
+HUBSPOT CRM REAL-TIME DATABASE SYNCHRONIZATION
+================================================================================
+* Target Entity Isolated: ${derivedCompany}
+* Automation Step Executed: ${crmAction}
+
+================================================================================
+AI-GENERATED OUTBOUND DRAFT (SAVED TO DRAFTS FOR AGENT AUDIT)
+================================================================================
+Subject: Addressing core operational friction at ${derivedCompany}
 
 Hi Team,
 
-I carefully reviewed your structural overview regarding the operational challenges currently creating administrative backlogs within your organization. 
+I carefully evaluated your structural briefing regarding the current operational bottlenecks impacting your team, specifically noting that: "${derivedFriction.substring(0, 110)}".
 
-Our integration engine is designed specifically to resolve this type of friction by establishing programmatic data linkages, freeing up valuable staff hours without forcing a complete software replacement.
+Our integration frameworks are engineered precisely to bridge these exact cross-application silos, automating data validation parameters and reclaiming lost staff hours without requiring expensive alterations to your baseline legacy infrastructure.
 
-Are you open for a brief, 10-minute technical sync this week to cross-examine our baseline solution blueprints?
+Are you available for a brief, 10-minute technical sync this coming Thursday to run through our baseline optimization blueprints?
 
 Best regards,
-Automated Systems Support Group"`;
+Business Operations Optimization Group
+[Responsible AI Guardrail: Sent to Pending Approval Draft Queue]`;
 
-        const out = document.getElementById('p2-output');
         out.style.display = 'block';
-        out.innerText = logOutput;
+        out.innerText = logLayout;
     }
 </script>
 </body>
